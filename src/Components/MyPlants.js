@@ -10,6 +10,7 @@ const MyPlants = ({ route }) => {
   return (
     <View style={styles.container}>
       <FlatList
+      style={{width: "100%", height: "100%"}}
         data={plants}
         renderItem={({item}) => <PlantIcon plant={item}/>}
         keyExtractor={item => item.id}
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F2E7BB",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
 });
 

@@ -1,4 +1,4 @@
-import nicksTomatoPic from "../assets/tomato_plant.jpeg"
+import tomatoPic from "../assets/tomato_plant.jpeg"
 const customers = [
   {
     id: 1,
@@ -14,7 +14,7 @@ const customers = [
       {
         id: 1,
         species: "Tomato Plant",
-        img: "",
+        img: tomatoPic,
         care_instructions: "Water twice a day, 1 cup.",
       },
     ],
@@ -33,13 +33,13 @@ const customers = [
       {
         id: 1,
         species: "Aloe",
-        img: "",
+        img: tomatoPic,
         care_instructions: "Water once a day, 1/2 cup.",
       },
       {
         id: 2,
         species: "Red One",
-        img: "",
+        img: tomatoPic,
         care_instructions: "Water twice a day, 1/4 cup.",
       },
     ],
