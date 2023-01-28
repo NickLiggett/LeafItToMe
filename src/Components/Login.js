@@ -1,10 +1,55 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
+import { useState, useEffect } from "react";
+import customers from "../../data/customers";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
+  const [usernameInput, setUsernameInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [user, setUser] = useState(null);
+
+  const userLogin = () => {
+    let theUser = customers.find(
+      (customer) =>
+        customer.username.toLowerCase() === usernameInput.toLowerCase() &&
+        customer.password === passwordInput
+    );
+    if (theUser !== undefined) {
+      setUser(theUser);
+    }
+  };
+  
+  useEffect(() => {
+    setPasswordInput("")
+    setUsernameInput("")
+    // setUser(null)
+    if (user) {
+      navigation.navigate("Home", { user: user });
+    }
+  }, [user]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>Leaf It To Me</Text>
-      <Pressable style={styles.loginButton} onPress={() => navigation.navigate('Home')}>
+      <View style={styles.inputContainer}>
+        <Text>Username</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(newText) => setUsernameInput(newText)}
+        >
+          {usernameInput}
+        </TextInput>
+        <Text>Password</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(event) => setPasswordInput(event)}
+        >{passwordInput}</TextInput>
+      </View>
+      <Pressable
+        style={styles.loginButton}
+        onPress={() => {
+          userLogin();
+        }}
+      >
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>Login</Text>
       </Pressable>
     </View>
@@ -20,9 +65,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: "#08BA46",
-    fontSize: 50,
+    fontSize: "60%",
     fontFamily: "Satisfy-Regular",
-    flex: 2 / 3,
   },
   loginButton: {
     backgroundColor: "#08BA46",
@@ -31,6 +75,17 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  inputContainer: {
+    margin: "25%",
+  },
+  input: {
+    height: 30,
+    width: 170,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    borderColor: "black",
+    borderWidth: 1,
+    margin: "1%",
   },
 });
 

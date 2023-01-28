@@ -1,18 +1,27 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
+import { useState } from "react";
 
-const Home = () => {
+const Home = ({ navigation, route }) => {
+  const [user, setUser] = useState(route.params.user);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText}>Welcome, Nick!</Text>
+      <Text style={styles.titleText}>Welcome, {user.first_name}!</Text>
       <View style={styles.optionContainer}>
-        <Pressable style={styles.option}>
+        <Pressable
+          style={styles.option}
+          onPress={() => navigation.navigate("MyPlants", { user: user })}
+        >
           <Text style={styles.optionText}>My Plants</Text>
         </Pressable>
         <Pressable style={styles.option}>
           <Text style={styles.optionText}>My Schedule</Text>
         </Pressable>
         <Pressable style={styles.option}>
-          <Text style={styles.optionText}>Request a visit</Text>
+          <Text style={styles.optionText}>Leaf it to another</Text>
+        </Pressable>
+        <Pressable style={styles.option}>
+          <Text style={styles.optionText}>Leaf it to me</Text>
         </Pressable>
       </View>
     </View>
@@ -31,7 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontFamily: "Satisfy-Regular",
     flex: 1 / 6,
-    marginTop: 20
+    marginTop: 20,
   },
   option: {
     height: 100,
@@ -40,15 +49,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(255,255,255,0.7)",
     borderRadius: "15%",
-    margin: '5%'
+    margin: "5%",
   },
   optionText: {
-    color: "green",
-    fontSize: 20
+    color: "#08BA46",
+    fontSize: 30,
+    fontFamily: "Satisfy-Regular",
+    margin: "5%",
   },
   optionContainer: {
     flex: 1,
-    // flexDirection: 'row',
   },
 });
 
