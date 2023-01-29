@@ -21,7 +21,6 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     setPasswordInput("")
     setUsernameInput("")
-    // setUser(null)
     if (user) {
       navigation.navigate("Home", { user: user });
     }
@@ -61,12 +60,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F2E7BB",
     alignItems: "center",
-    justifyContent: "center",
   },
   titleText: {
     color: "#08BA46",
-    fontSize: "60%",
+    fontSize: 50,
     fontFamily: "Satisfy-Regular",
+    padding: "5%",
+    marginTop: 50
+  },
+  inputContainer: {
+    marginTop: 25,
   },
   loginButton: {
     backgroundColor: "#08BA46",
@@ -75,16 +78,12 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  inputContainer: {
-    margin: "25%",
+    marginTop: 50,
   },
   input: {
     height: 30,
     width: 170,
     backgroundColor: "rgba(255,255,255,0.7)",
-    borderColor: "black",
-    borderWidth: 1,
     margin: "1%",
   },
 });

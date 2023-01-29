@@ -40,15 +40,15 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontFamily: "Satisfy-Regular",
     flex: 1 / 6,
-    marginTop: 20,
+    marginTop: 30
   },
   option: {
     height: 100,
-    width: 200,
+    width: 250,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255,255,255,0.7)",
-    borderRadius: "15%",
+    borderRadius: 15,
     margin: "5%",
   },
   optionText: {
