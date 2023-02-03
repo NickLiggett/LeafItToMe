@@ -1,6 +1,5 @@
 import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
 import { useState, useEffect } from "react";
-import customers from "../../data/customers";
 
 const Login = ({ navigation }) => {
   const [usernameInput, setUsernameInput] = useState("");
@@ -8,19 +7,29 @@ const Login = ({ navigation }) => {
   const [user, setUser] = useState(null);
 
   const userLogin = () => {
-    let theUser = customers.find(
-      (customer) =>
-        customer.username.toLowerCase() === usernameInput.toLowerCase() &&
-        customer.password === passwordInput
-    );
-    if (theUser !== undefined) {
-      setUser(theUser);
-    }
+    fetch("http://localhost:4000/customers")
+      .then((response) => response.json())
+      .then((data) => {
+        const theUser = data.customers.find(
+          (customer) =>
+            customer.username.toLowerCase() === usernameInput.toLowerCase() &&
+            customer.password === passwordInput
+        );
+        if (theUser !== undefined) {
+          setUser(theUser);
+        }
+      })
+      .catch(function (error) {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
   };
-  
+
   useEffect(() => {
-    setPasswordInput("")
-    setUsernameInput("")
+    setPasswordInput("");
+    setUsernameInput("");
     if (user) {
       navigation.navigate("Home", { user: user });
     }
@@ -41,7 +50,9 @@ const Login = ({ navigation }) => {
         <TextInput
           style={styles.input}
           onChangeText={(event) => setPasswordInput(event)}
-        >{passwordInput}</TextInput>
+        >
+          {passwordInput}
+        </TextInput>
       </View>
       <Pressable
         style={styles.loginButton}
@@ -66,7 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontFamily: "Satisfy-Regular",
     padding: "5%",
-    marginTop: 50
+    marginTop: 50,
   },
   inputContainer: {
     marginTop: 25,

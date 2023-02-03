@@ -1,11 +1,25 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
-const PlantDetails = ({ setModalVisible, selectedPlant }) => {
+const PlantDetails = ({ setModalVisible, selectedPlant, user }) => {
+
+  const deleteHandler = () => {
+    fetch(`http://localhost:4000/customer/${user.id}/plant/${selectedPlant.id}`, {
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      });
+  };
+
   return selectedPlant ? (
     <View style={styles.container}>
       <Image style={styles.image} source={selectedPlant.img} />
       <View style={styles.description}>
         <Text style={styles.plantName}>{selectedPlant.species}</Text>
+        <Pressable onPress={() => deleteHandler()}>
+          <Text>Delete</Text>
+        </Pressable>
         <Text style={styles.instructions}>{selectedPlant.instructions}</Text>
         <Text onPress={() => setModalVisible(false)}>Close</Text>
       </View>
