@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
 const PlantDetails = ({ setModalVisible, selectedPlant, user }) => {
   const deleteHandler = () => {
-    fetch(`http://localhost:4000/customers/${user.id}/plants/${selectedPlant.id}`, {
+    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${user.id}/plants/${selectedPlant.id}`, {
         method: 'DELETE'
       })
         .then(response => response.json())

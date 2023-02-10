@@ -7,7 +7,7 @@ const AddNew = ({ route, navigation }) => {
   const [careInstructions, setCareInstructions] = useState("");
 
   const postNewPlant = () => {
-    fetch(`http://localhost:4000/customers/${route.params.user.id}/plants`, {
+    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}/plants`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ const AddNew = ({ route, navigation }) => {
   })
 })
   .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => route.params.setUserPlants(data)) // setUserPlants to data
   .catch(error => console.error(error))
   };
 

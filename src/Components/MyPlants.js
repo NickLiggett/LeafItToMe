@@ -24,12 +24,12 @@ const MyPlants = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:4000/customers/${route.params.user.id}`)
+    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}`)
     .then(response => response.json())
     .then(data => {
       setUserPlants(data.plants)
     })
-  }, [userPlants])
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -50,9 +50,8 @@ const MyPlants = ({ navigation, route }) => {
       <View style={styles.headerContainer}>
         <Pressable
           style={styles.addContainer}
-          onPress={() => navigation.navigate("AddNew", { screen: "AddNew", user: route.params.user })}
+          onPress={() => navigation.navigate("AddNew", { screen: "AddNew", user: route.params.user, setUserPlants})} // Send setUserPlants as a prop
         >
-          {/* create post function here */}
           <Image source={addIcon} />
           <Text style={styles.addText}>Add New</Text>
         </Pressable>
@@ -88,7 +87,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 3,
     marginRight: 25,
-    borderWidth: 1,
   },
   addText: {
     fontWeight: "600",
