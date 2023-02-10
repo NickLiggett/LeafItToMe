@@ -7,19 +7,20 @@ const AddNew = ({ route, navigation }) => {
   const [careInstructions, setCareInstructions] = useState("");
 
   const postNewPlant = () => {
-    fetch(`http://localhost:4000/customer/addPlant/${route.params.user.id}`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: 3,
-        species: plantSpecies,
-        img: plantImage,
-        instructions: careInstructions,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.json())
+    fetch(`http://localhost:4000/customers/${route.params.user.id}/plants`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    "species": plantSpecies,
+    "img": plantImage,
+    "instructions": careInstructions
+  })
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error))
   };
 
   return (
