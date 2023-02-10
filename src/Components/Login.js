@@ -10,7 +10,7 @@ const Login = ({ navigation }) => {
     fetch("http://localhost:4000/customers")
       .then((response) => response.json())
       .then((data) => {
-        const theUser = data.customers.find(
+        const theUser = data.find(
           (customer) =>
             customer.username.toLowerCase() === usernameInput.toLowerCase() &&
             customer.password === passwordInput

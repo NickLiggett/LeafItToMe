@@ -27,7 +27,7 @@ const MyPlants = ({ navigation, route }) => {
     fetch(`http://localhost:4000/customers/${route.params.user.id}`)
     .then(response => response.json())
     .then(data => {
-      setUserPlants(data.customer.plants)
+      setUserPlants(data.plants)
     })
   }, [userPlants])
 
