@@ -1,8 +1,7 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
-import { useState } from "react";
 
 const Home = ({ navigation, route }) => {
-  const [user, setUser] = useState(route.params.user);
+  const user = route.params.user;
 
   return (
     <View style={styles.container}>
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontFamily: "Satisfy-Regular",
     flex: 1 / 6,
-    marginTop: 30
+    marginTop: 30,
   },
   option: {
     height: 100,

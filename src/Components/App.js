@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./Login";
 import Home from "./Home";
 import MyPlants from "./MyPlants";
-import AddNew from "./AddNew"
+import AddNew from "./AddNew";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

@@ -16,7 +16,7 @@ import PlantDetails from "./PlantDetails";
 const MyPlants = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPlant, setSelectedPlant] = useState(null);
-  const [userPlants, setUserPlants] = useState(route.params.user.plants)
+  const [userPlants, setUserPlants] = useState(route.params.user.plants);
 
   const selectPlant = (plant) => {
     setSelectedPlant(plant);
@@ -24,12 +24,14 @@ const MyPlants = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}`)
-    .then(response => response.json())
-    .then(data => {
-      setUserPlants(data.plants)
-    })
-  }, [])
+    fetch(
+      `https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserPlants(data.plants);
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -50,7 +52,14 @@ const MyPlants = ({ navigation, route }) => {
       <View style={styles.headerContainer}>
         <Pressable
           style={styles.addContainer}
-          onPress={() => navigation.navigate("AddNew", { screen: "AddNew", user: route.params.user, setUserPlants})} // Send setUserPlants as a prop
+          onPress={() =>
+            navigation.navigate("AddNew", {
+              screen: "AddNew",
+              user: route.params.user,
+              setUserPlants,
+            })
+          }
+          // Sending setUserPlants as a prop here causes a warning "Non-serializable values were found in the navigation state."
         >
           <Image source={addIcon} />
           <Text style={styles.addText}>Add New</Text>
@@ -65,7 +74,7 @@ const MyPlants = ({ navigation, route }) => {
         keyExtractor={(item) => item.id}
       />
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
