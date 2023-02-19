@@ -38,7 +38,7 @@ const MyPlants = ({ navigation, route }) => {
   console.log("MyPlants Mounted");
 
   useEffect(() => {
-    fetch(`http://localhost:4000/customers/${route.params.user.id}/plants`)
+    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}/plants`)
       .then((response) => response.json())
       .then((data) => {
         if (prevUserPlants.current !== data) {

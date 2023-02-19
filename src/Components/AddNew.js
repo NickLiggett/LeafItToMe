@@ -9,7 +9,7 @@ const AddNew = ({ route, navigation }) => {
   const { user, setUserPlants } = route.params
 
   const postNewPlant = () => {
-    fetch(`http://localhost:4000/customers/${user.id}/plants`, {
+    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${user.id}/plants`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
