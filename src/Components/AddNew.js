@@ -30,30 +30,37 @@ const AddNew = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <View>
-          <Text>Name:</Text>
+      <View style={styles.titleView}>
+        <Text style={styles.titleText}>Add a new plant</Text>
+      </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.nameInputWrapper}>
+          <Text style={styles.nameInputTitle}>Name</Text>
           <TextInput
-            style={{ width: 150, height: 20, backgroundColor: "white" }}
+            style={styles.nameInput}
             onChangeText={(newText) => setSpecies(newText)}
           ></TextInput>
         </View>
-        <View>
-          <Text>Care Insturctions:</Text>
+        <View style={styles.careInputWrapper}>
+          <Text style={styles.careInputTitle}>Care Instructions</Text>
           <TextInput
-            style={{ width: 200, height: 100, backgroundColor: "white" }}
+            style={styles.careInput}
             multiline={true}
             onChangeText={(newText) => setCareInstructions(newText)}
           ></TextInput>
-          <Pressable
-            style={{ width: 100, height: 20, backgroundColor: "green" }}
-            onPress={() => {
-              postNewPlant();
-            }}
-          >
-            <Text style={{ color: "white", textAlign: "center" }}>Submit</Text>
-          </Pressable>
         </View>
+        <Pressable
+          style={styles.submitButton}
+          onPress={() => {
+            postNewPlant();
+          }}
+        >
+          <Text
+            style={styles.submitText}
+          >
+            Submit
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -64,8 +71,72 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F2E7BB",
     alignItems: "center",
-    justifyContent: "center",
   },
+  inputContainer: {
+    flex: 3 / 4,
+    alignItems: "center",
+    width: "80%",
+  },
+  nameInputWrapper: {
+    width: "80%",
+    height: "10%",
+  },
+  nameInputTitle: {
+    fontSize: 30,
+    marginBottom: "1%",
+    color: "#08BA46",
+    fontFamily: "Satisfy-Regular",
+  },
+  nameInput: {
+    width: "100%",
+    height: "60%",
+    padding: "5%",
+    borderRadius: "8px",
+    backgroundColor: "white",
+    fontSize: 18
+  },
+  careInputWrapper: {
+    width: "80%",
+    height: 200,
+    marginTop: "15%",
+  },
+  careInputTitle: {
+    fontSize: 30,
+    marginBottom: "1%",
+    color: "#08BA46",
+    fontFamily: "Satisfy-Regular",
+  },
+  careInput: {
+    width: "100%",
+    height: 150,
+    backgroundColor: "white",
+    borderRadius: "8px",
+    padding: "3%",
+    paddingTop: "3%",
+  },
+  titleView: {
+    flex: 1 / 8,
+    marginTop: "5%",
+  },
+  titleText: {
+    fontSize: 50,
+    fontFamily: "Satisfy-Regular",
+    color: "#08BA46",
+  },
+  submitButton: {
+    backgroundColor: "green",
+    borderRadius: "8px",
+    marginTop: "50%",
+    width: "80%"
+  },
+  submitText: {
+    color: "white",
+    textAlign: "center",
+    padding: "2%",
+    fontSize: "30",
+    fontWeight: "900",
+    fontFamily: "Satisfy-Regular",
+  }
 });
 
 export default AddNew;

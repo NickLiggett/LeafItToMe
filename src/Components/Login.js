@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: "#08BA46",
-    fontSize: 50,
     fontFamily: "Satisfy-Regular",
+    fontSize: 50,
     padding: "5%",
     marginTop: 50,
   },
