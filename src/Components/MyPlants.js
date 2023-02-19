@@ -25,25 +25,13 @@ const MyPlants = ({ navigation, route }) => {
     setModalVisible(!modalVisible);
   };
 
-  const plantsHandler = (plantData) => {
-    console.log("plantData", plantData);
-    console.log("userPlants", userPlants);
-    if (plantData === userPlants) {
-      return;
-    } else {
-      setUserPlants(plantData);
-    }
-  };
-
-  console.log("MyPlants Mounted");
-
   useEffect(() => {
-    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}/plants`)
+    fetch(
+      `https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}/plants`
+    )
       .then((response) => response.json())
       .then((data) => {
         if (prevUserPlants.current !== data) {
-          console.log(prevUserPlants.current)
-          console.log(data)
           setUserPlants(data);
           prevUserPlants.current = data;
         }
@@ -76,7 +64,6 @@ const MyPlants = ({ navigation, route }) => {
               setUserPlants: setUserPlants,
             })
           }
-          // Sending setUserPlants as a prop here causes a warning "Non-serializable values were found in the navigation state."
         >
           <Image source={addIcon} />
           <Text style={styles.addText}>Add New</Text>

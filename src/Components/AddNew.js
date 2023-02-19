@@ -6,7 +6,7 @@ const AddNew = ({ route, navigation }) => {
   const [plantImage, setPlantImage] = useState("");
   const [careInstructions, setCareInstructions] = useState("");
 
-  const { user, setUserPlants } = route.params
+  const { user, setUserPlants } = route.params;
 
   const postNewPlant = () => {
     fetch(`https://leaf-it-to-me-api.vercel.app/customers/${user.id}/plants`, {
@@ -21,16 +21,13 @@ const AddNew = ({ route, navigation }) => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data.plants)
-        setUserPlants(data.plants)
-      })
+      .then((data) => setUserPlants(data.plants))
       .catch((error) => console.error(error))
       .finally(() => {
         navigation.goBack();
       });
   };
-  
+
   return (
     <View style={styles.container}>
       <View>
