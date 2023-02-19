@@ -7,7 +7,7 @@ const Login = ({ navigation }) => {
   const [user, setUser] = useState(null);
 
   const userLogin = () => {
-    fetch("https://leaf-it-to-me-api.vercel.app/customers")
+    fetch("http://localhost:4000/customers")
       .then((response) => response.json())
       .then((data) => {
         const theUser = data.find(

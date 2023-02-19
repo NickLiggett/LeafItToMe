@@ -6,26 +6,31 @@ const AddNew = ({ route, navigation }) => {
   const [plantImage, setPlantImage] = useState("");
   const [careInstructions, setCareInstructions] = useState("");
 
-  const postNewPlant = () => {
-    fetch(
-      `https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}/plants`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          species: plantSpecies,
-          img: plantImage,
-          instructions: careInstructions,
-        }),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => route.params.setUserPlants(data))
-      .catch((error) => console.error(error));
-  };
+  const { user, setUserPlants } = route.params
 
+  const postNewPlant = () => {
+    fetch(`http://localhost:4000/customers/${user.id}/plants`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        species: plantSpecies,
+        img: plantImage,
+        instructions: careInstructions,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.plants)
+        setUserPlants(data.plants)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        navigation.goBack();
+      });
+  };
+  
   return (
     <View style={styles.container}>
       <View>
@@ -47,7 +52,6 @@ const AddNew = ({ route, navigation }) => {
             style={{ width: 100, height: 20, backgroundColor: "green" }}
             onPress={() => {
               postNewPlant();
-              navigation.goBack();
             }}
           >
             <Text style={{ color: "white", textAlign: "center" }}>Submit</Text>

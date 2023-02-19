@@ -7,7 +7,7 @@ import {
   Text,
   Modal,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import addIcon from "../../assets/add-icon.png";
 
 import PlantIcon from "./PlantIcon";
@@ -18,20 +18,37 @@ const MyPlants = ({ navigation, route }) => {
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [userPlants, setUserPlants] = useState(route.params.user.plants);
 
+  const prevUserPlants = useRef(userPlants);
+
   const selectPlant = (plant) => {
     setSelectedPlant(plant);
     setModalVisible(!modalVisible);
   };
 
+  const plantsHandler = (plantData) => {
+    console.log("plantData", plantData);
+    console.log("userPlants", userPlants);
+    if (plantData === userPlants) {
+      return;
+    } else {
+      setUserPlants(plantData);
+    }
+  };
+
+  console.log("MyPlants Mounted");
+
   useEffect(() => {
-    fetch(
-      `https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}`
-    )
+    fetch(`http://localhost:4000/customers/${route.params.user.id}/plants`)
       .then((response) => response.json())
       .then((data) => {
-        setUserPlants(data.plants);
+        if (prevUserPlants.current !== data) {
+          console.log(prevUserPlants.current)
+          console.log(data)
+          setUserPlants(data);
+          prevUserPlants.current = data;
+        }
       });
-  }, []);
+  }, [modalVisible]);
 
   return (
     <View style={styles.container}>
@@ -56,7 +73,7 @@ const MyPlants = ({ navigation, route }) => {
             navigation.navigate("AddNew", {
               screen: "AddNew",
               user: route.params.user,
-              setUserPlants,
+              setUserPlants: setUserPlants,
             })
           }
           // Sending setUserPlants as a prop here causes a warning "Non-serializable values were found in the navigation state."
