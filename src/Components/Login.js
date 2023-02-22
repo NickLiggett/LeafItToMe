@@ -40,7 +40,7 @@ const Login = ({ navigation }) => {
       <Text style={styles.titleText}>Leaf It To Me</Text>
       <View style={styles.inputContainer}>
         <View>
-          <Text style={styles.userNameText}>Username</Text>
+          <Text style={styles.inputText}>Username</Text>
           <TextInput
             style={styles.input}
             onChangeText={(newText) => setUsernameInput(newText)}
@@ -49,7 +49,7 @@ const Login = ({ navigation }) => {
           </TextInput>
         </View>
         <View>
-          <Text style={styles.passwordText}>Password</Text>
+          <Text style={styles.inputText}>Password</Text>
           <TextInput
             style={styles.input}
             onChangeText={(event) => setPasswordInput(event)}
@@ -64,13 +64,13 @@ const Login = ({ navigation }) => {
           userLogin();
         }}
       >
-        <Text style={styles.loginButtonText}>Login</Text>
+        <Text style={styles.buttonText}>Login</Text>
       </Pressable>
       <Pressable
         style={styles.createAccountButton}
         onPress={() => navigation.navigate("Create Profile Page")}
       >
-        <Text style={styles.createAccountButtonText}>Create an Account</Text>
+        <Text style={styles.buttonText}>Create an Account</Text>
       </Pressable>
     </View>
   );
@@ -93,18 +93,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 25,
     width: "60%",
-    height: "30%"
+    height: "30%",
   },
-  userNameText: {
+  inputText: {
     color: "#08BA46",
     fontFamily: "Satisfy-Regular",
     fontSize: 40,
-  },
-  passwordText: {
-    color: "#08BA46",
-    fontFamily: "Satisfy-Regular",
-    fontSize: 40,
-    marginTop: "5%",
   },
   input: {
     height: 35,
@@ -123,11 +117,6 @@ const styles = StyleSheet.create({
     marginTop: "35%",
     borderRadius: "8px",
   },
-  loginButtonText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-  },
   createAccountButton: {
     backgroundColor: "#08BA46",
     width: "50%",
@@ -138,12 +127,11 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     borderRadius: "8px",
   },
-  createAccountButtonText: {
-    fontSize: 18,
+  buttonText: {
+    fontSize: 20,
     fontWeight: "bold",
-    padding: "1%",
     color: "white",
-  },
+  }
 });
 
 export default Login;
