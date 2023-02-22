@@ -58,8 +58,8 @@ const MyPlants = ({ navigation, route }) => {
         <Pressable
           style={styles.addContainer}
           onPress={() =>
-            navigation.navigate("AddNew", {
-              screen: "AddNew",
+            navigation.navigate("Add New Plant", {
+              screen: "Add New Plant",
               user: route.params.user,
               setUserPlants: setUserPlants,
             })

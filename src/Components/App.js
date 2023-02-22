@@ -6,6 +6,8 @@ import Login from "./Login";
 import Home from "./Home";
 import MyPlants from "./MyPlants";
 import AddNew from "./AddNew";
+import CreateProfile from "./CreateProfile"
+import CreateProfileNext from "./CreateProfileNext"
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -16,11 +18,13 @@ export default function App() {
 
   return fontsLoaded ? (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login Page">
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="MyPlants" component={MyPlants} />
-        <Stack.Screen name="AddNew" component={AddNew} />
+        <Stack.Screen name="Login Page" component={Login} />
+        <Stack.Screen name="My Plants" component={MyPlants} />
+        <Stack.Screen name="Add New Plant" component={AddNew} />
+        <Stack.Screen name="Create Profile Page" component={CreateProfile} />
+        <Stack.Screen name="Create Profile Page 2" component={CreateProfileNext} />
       </Stack.Navigator>
     </NavigationContainer>
   ) : null;

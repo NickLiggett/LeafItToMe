@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
   nameInput: {
     width: "100%",
     height: "60%",
-    padding: "5%",
+    padding: "1%",
+    paddingLeft: "3%",
     borderRadius: "8px",
     backgroundColor: "white",
     fontSize: 18
@@ -110,9 +111,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 150,
     backgroundColor: "white",
+    fontSize: 25,
     borderRadius: "8px",
     padding: "3%",
     paddingTop: "3%",
+    fontSize: 16,
   },
   titleView: {
     flex: 1 / 8,
