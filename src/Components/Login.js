@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 25,
     width: "60%",
-    height: "30%",
+    height: 230,
   },
   inputText: {
     color: "#08BA46",
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   input: {
     height: 35,
     backgroundColor: "rgba(255,255,255,0.7)",
-    borderRadius: "8px",
+    borderRadius: 8,
     padding: 5,
     fontSize: 18,
   },
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: "35%",
-    borderRadius: "8px",
+    borderRadius: 8,
   },
   createAccountButton: {
     backgroundColor: "#08BA46",
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: "10%",
-    borderRadius: "8px",
+    borderRadius: 8,
   },
   buttonText: {
     fontSize: 20,

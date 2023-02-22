@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     padding: "5%",
     width: "80%",
-    height: "70%",
+    height: 550,
     justifyContent: "space-between",
   },
   inputTitle: {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "white",
-    borderRadius: "8px",
+    borderRadius: 8,
     padding: 5,
     height: 30,
     fontSize: 18,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#08BA46",
     width: 100,
     height: 40,
-    borderRadius: "8px",
+    borderRadius: 8,
     marginTop: 80,
   },
   nextText: {

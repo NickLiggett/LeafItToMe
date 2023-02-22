@@ -45,7 +45,7 @@ const AddNew = ({ route, navigation }) => {
           <Text style={styles.careInputTitle}>Care Instructions</Text>
           <TextInput
             style={styles.careInput}
-            multiline={true}
+            multiline
             onChangeText={(newText) => setCareInstructions(newText)}
           ></TextInput>
         </View>
@@ -76,10 +76,11 @@ const styles = StyleSheet.create({
     flex: 3 / 4,
     alignItems: "center",
     width: "80%",
+    marginTop: 30,
   },
   nameInputWrapper: {
     width: "80%",
-    height: "10%",
+    height: 100,
   },
   nameInputTitle: {
     fontSize: 30,
@@ -89,17 +90,17 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     width: "100%",
-    height: "60%",
+    height: 40,
     padding: "1%",
     paddingLeft: "3%",
-    borderRadius: "8px",
+    borderRadius: 8,
     backgroundColor: "white",
     fontSize: 18
   },
   careInputWrapper: {
     width: "80%",
     height: 200,
-    marginTop: "15%",
+    marginTop: 50,
   },
   careInputTitle: {
     fontSize: 30,
@@ -112,13 +113,13 @@ const styles = StyleSheet.create({
     height: 150,
     backgroundColor: "white",
     fontSize: 25,
-    borderRadius: "8px",
+    borderRadius: 8,
     padding: "3%",
     paddingTop: "3%",
     fontSize: 16,
+    textAlignVertical: "top"
   },
   titleView: {
-    flex: 1 / 8,
     marginTop: "5%",
   },
   titleText: {
@@ -128,15 +129,15 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "green",
-    borderRadius: "8px",
-    marginTop: "50%",
+    borderRadius: 8,
+    marginTop: 50,
     width: "80%"
   },
   submitText: {
     color: "white",
     textAlign: "center",
     padding: "2%",
-    fontSize: "30",
+    fontSize: 30,
     fontWeight: "900",
     fontFamily: "Satisfy-Regular",
   }
