@@ -9,7 +9,7 @@ const Home = ({ navigation, route }) => {
       <View style={styles.optionContainer}>
         <Pressable
           style={styles.option}
-          onPress={() => navigation.navigate("MyPlants", { user: user })}
+          onPress={() => navigation.navigate("My Plants", { user: user })}
         >
           <Text style={styles.optionText}>My Plants</Text>
         </Pressable>

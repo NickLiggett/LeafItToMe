@@ -7,7 +7,7 @@ const Login = ({ navigation }) => {
   const [user, setUser] = useState(null);
 
   const userLogin = () => {
-    fetch("http://localhost:4000/customers")
+    fetch("https://leaf-it-to-me-api.vercel.app/customers")
       .then((response) => response.json())
       .then((data) => {
         const theUser = data.find(
@@ -39,20 +39,24 @@ const Login = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.titleText}>Leaf It To Me</Text>
       <View style={styles.inputContainer}>
-        <Text>Username</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(newText) => setUsernameInput(newText)}
-        >
-          {usernameInput}
-        </TextInput>
-        <Text>Password</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(event) => setPasswordInput(event)}
-        >
-          {passwordInput}
-        </TextInput>
+        <View>
+          <Text style={styles.inputText}>Username</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(newText) => setUsernameInput(newText)}
+          >
+            {usernameInput}
+          </TextInput>
+        </View>
+        <View>
+          <Text style={styles.inputText}>Password</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(event) => setPasswordInput(event)}
+          >
+            {passwordInput}
+          </TextInput>
+        </View>
       </View>
       <Pressable
         style={styles.loginButton}
@@ -60,7 +64,13 @@ const Login = ({ navigation }) => {
           userLogin();
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Login</Text>
+        <Text style={styles.buttonText}>Login</Text>
+      </Pressable>
+      <Pressable
+        style={styles.createAccountButton}
+        onPress={() => navigation.navigate("Create Profile Page")}
+      >
+        <Text style={styles.buttonText}>Create an Account</Text>
       </Pressable>
     </View>
   );
@@ -74,29 +84,54 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: "#08BA46",
-    fontSize: 50,
     fontFamily: "Satisfy-Regular",
+    fontSize: 60,
     padding: "5%",
-    marginTop: 50,
+    marginTop: 20,
   },
   inputContainer: {
+    justifyContent: "space-between",
     marginTop: 25,
+    width: "60%",
+    height: 230,
+  },
+  inputText: {
+    color: "#08BA46",
+    fontFamily: "Satisfy-Regular",
+    fontSize: 40,
+  },
+  input: {
+    height: 35,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    borderRadius: 8,
+    padding: 5,
+    fontSize: 18,
   },
   loginButton: {
     backgroundColor: "#08BA46",
-    width: 100,
+    width: "30%",
     height: 40,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 50,
+    marginTop: "35%",
+    borderRadius: 8,
   },
-  input: {
-    height: 30,
-    width: 170,
-    backgroundColor: "rgba(255,255,255,0.7)",
-    margin: "1%",
+  createAccountButton: {
+    backgroundColor: "#08BA46",
+    width: "50%",
+    height: 40,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "10%",
+    borderRadius: 8,
   },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  }
 });
 
 export default Login;
