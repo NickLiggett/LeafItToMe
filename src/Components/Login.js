@@ -87,13 +87,12 @@ const styles = StyleSheet.create({
     fontFamily: "Satisfy-Regular",
     fontSize: 60,
     padding: "5%",
-    marginTop: 20,
   },
   inputContainer: {
-    justifyContent: "space-between",
     marginTop: 25,
     width: "60%",
-    height: 230,
+    padding: "5%",
+    borderWidth: 1
   },
   inputText: {
     color: "#08BA46",
