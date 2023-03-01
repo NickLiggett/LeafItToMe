@@ -1,12 +1,16 @@
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Image, Text, Pressable } from "react-native";
 
 const Home = ({ navigation, route }) => {
   const user = route.params.user;
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.userImage}
+        source={{ uri: user.user_img }}
+      ></Image>
       <Text style={styles.titleText}>Welcome, {user.first_name}!</Text>
-      <View style={styles.optionContainer}>
+      <View>
         <Pressable
           style={styles.option}
           onPress={() => navigation.navigate("My Plants", { user: user })}
@@ -34,16 +38,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  userImage: {
+    width: 150,
+    height: 150,
+    borderWidth: 2,
+    borderRadius: 100,
+    borderColor: "#08BA46",
+  },
   titleText: {
     color: "#08BA46",
     fontSize: 50,
     fontFamily: "Satisfy-Regular",
-    flex: 1 / 6,
-    marginTop: 30,
   },
   option: {
-    height: 100,
-    width: 250,
+    height: 80,
+    width: 300,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255,255,255,0.7)",
@@ -54,10 +63,7 @@ const styles = StyleSheet.create({
     color: "#08BA46",
     fontSize: 30,
     fontFamily: "Satisfy-Regular",
-    margin: "5%",
-  },
-  optionContainer: {
-    flex: 1,
+    padding: "2%",
   },
 });
 

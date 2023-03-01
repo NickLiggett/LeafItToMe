@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
 import { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
 
 const CreateProfileNext = ({ route, navigation }) => {
   const { firstName, username, password } = route.params;
@@ -7,8 +8,23 @@ const CreateProfileNext = ({ route, navigation }) => {
   const [userCity, setUserCity] = useState("");
   const [userState, setUserState] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [userImg, setUserImg] = useState("");
+  const [image, setImage] = useState(null);
   const [successful, setSuccessful] = useState(false);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    
+    if (!result.canceled) {
+        console.log(result);
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const postNewUser = () => {
     fetch("https://leaf-it-to-me-api.vercel.app/customers", {
@@ -23,7 +39,7 @@ const CreateProfileNext = ({ route, navigation }) => {
         city: userCity,
         state: userState,
         zip_code: zipCode,
-        user_img: userImg,
+        user_img: image,
       }),
     })
       .then((response) => {
@@ -40,6 +56,8 @@ const CreateProfileNext = ({ route, navigation }) => {
         console.error("Error:", error);
       });
   };
+
+  console.log(image)
 
   return successful ? (
     <View style={styles.successfulContainer}>
@@ -75,7 +93,9 @@ const CreateProfileNext = ({ route, navigation }) => {
           ></TextInput>
         </View>
         <View>
-          <Text style={styles.inputTitle}>Upload an image</Text>
+          <Pressable onPress={() => pickImage()}>
+            <Text style={styles.inputTitle}>Upload an image</Text>
+          </Pressable>
           {/* Figure out how to upload image here */}
         </View>
         <Pressable style={styles.submitButton} onPress={() => postNewUser()}>

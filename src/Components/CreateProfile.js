@@ -70,12 +70,11 @@ const styles = StyleSheet.create({
     fontFamily: "Satisfy-Regular",
     fontSize: 50,
     padding: "5%",
-    marginTop: 50,
   },
   inputContainer: {
     padding: "5%",
     width: "80%",
-    height: 550,
+    height: 500,
     justifyContent: "space-between",
   },
   inputTitle: {
