@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     marginTop: 25,
     width: "60%",
     padding: "5%",
-    borderWidth: 1
   },
   inputText: {
     color: "#08BA46",
