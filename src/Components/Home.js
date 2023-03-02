@@ -4,11 +4,11 @@ const Home = ({ navigation, route }) => {
   const user = route.params.user;
 
   return (
-    <View style={styles.container}>
-      <Image
+    <View style={user.user_img ? styles.container : styles.containerNoPic}>
+      {user.user_img ? <Image
         style={styles.userImage}
         source={{ uri: user.user_img }}
-      ></Image>
+      ></Image>: null}
       <Text style={styles.titleText}>Welcome, {user.first_name}!</Text>
       <View>
         <Pressable
@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2E7BB",
     alignItems: "center",
     justifyContent: "center",
+  },
+  containerNoPic: {
+    flex: 1,
+    backgroundColor: "#F2E7BB",
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
   userImage: {
     width: 150,

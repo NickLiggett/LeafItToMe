@@ -6,26 +6,25 @@ const Login = ({ navigation }) => {
   const [passwordInput, setPasswordInput] = useState("");
   const [user, setUser] = useState(null);
 
-  const userLogin = () => {
-    fetch("https://leaf-it-to-me-api.vercel.app/customers")
-      .then((response) => response.json())
-      .then((data) => {
-        const theUser = data.find(
-          (customer) =>
-            customer.username.toLowerCase() === usernameInput.toLowerCase() &&
-            customer.password === passwordInput
-        );
-        if (theUser !== undefined) {
-          setUser(theUser);
-        }
-      })
-      .catch(function (error) {
-        console.log(
-          "There has been a problem with your fetch operation: " + error.message
-        );
-        throw error;
-      });
-  };
+  const userLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/customers")
+      const data = await response.json()
+      const theUser = data.find(
+        (customer) =>
+          customer.username.toLowerCase() === usernameInput.toLowerCase() &&
+          customer.password === passwordInput
+      );
+      if (theUser !== undefined) {
+        setUser(theUser);
+      }
+    } catch (err) {
+      console.log(
+        "There has been a problem with your fetch operation: " + err.message
+      );
+    }
+
+  }
 
   useEffect(() => {
     setPasswordInput("");

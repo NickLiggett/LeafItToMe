@@ -1,31 +1,64 @@
 import { View, TextInput, Text, Pressable, StyleSheet } from "react-native";
 import { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
 
 const AddNew = ({ route, navigation }) => {
   const [plantSpecies, setSpecies] = useState("");
-  const [plantImage, setPlantImage] = useState("");
+  const [plantImage, setPlantImage] = useState(null);
   const [careInstructions, setCareInstructions] = useState("");
 
-  const { user, setUserPlants } = route.params;
+  const { userId, userPlants, setUserPlants } = route.params;
 
-  const postNewPlant = () => {
-    fetch(`https://leaf-it-to-me-api.vercel.app/customers/${user.id}/plants`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        species: plantSpecies,
-        img: plantImage,
-        instructions: careInstructions,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => setUserPlants(data.plants))
-      .catch((error) => console.error(error))
-      .finally(() => {
-        navigation.goBack();
-      });
+  const assignId = () => {
+    const plantIds = userPlants.map((plant) => plant.id);
+    let id = Math.floor(Math.random() * 1000 + 1);
+    if (plantIds.includes(id)) {
+      id = Math.floor(Math.random() * 1000 + 1);
+    }
+    return id;
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setPlantImage(result.assets[0].uri);
+    }
+  };
+
+  const postNewPlant = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/customers/${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            plants: [
+              ...userPlants,
+              {
+                id: assignId(),
+                species: plantSpecies,
+                image: plantImage,
+                instructions: careInstructions,
+              },
+            ],
+          }),
+        }
+      );
+      const data = await response.json();
+      setUserPlants(data.plants);
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+    navigation.goBack();
   };
 
   return (
@@ -35,31 +68,27 @@ const AddNew = ({ route, navigation }) => {
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.nameInputWrapper}>
-          <Text style={styles.nameInputTitle}>Name</Text>
+          <Text style={styles.inputTitle}>Name</Text>
           <TextInput
             style={styles.nameInput}
             onChangeText={(newText) => setSpecies(newText)}
           ></TextInput>
         </View>
         <View style={styles.careInputWrapper}>
-          <Text style={styles.careInputTitle}>Care Instructions</Text>
+          <Text style={styles.inputTitle}>Care Instructions</Text>
           <TextInput
             style={styles.careInput}
             multiline
             onChangeText={(newText) => setCareInstructions(newText)}
           ></TextInput>
         </View>
-        <Pressable
-          style={styles.submitButton}
-          onPress={() => {
-            postNewPlant();
-          }}
-        >
-          <Text
-            style={styles.submitText}
-          >
-            Submit
-          </Text>
+        <View style={{}}>
+          <Pressable onPress={() => pickImage()}>
+            <Text style={styles.inputTitle}>Upload an image</Text>
+          </Pressable>
+        </View>
+        <Pressable style={styles.submitButton} onPress={() => postNewPlant()}>
+          <Text style={styles.submitText}>Submit</Text>
         </Pressable>
       </View>
     </View>
@@ -73,20 +102,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputContainer: {
-    flex: 3 / 4,
+    flex: 7 / 8,
     alignItems: "center",
+    justifyContent: "space-evenly",
     width: "80%",
-    marginTop: 30,
   },
   nameInputWrapper: {
-    width: "80%",
+    width: "90%",
     height: 100,
   },
-  nameInputTitle: {
-    fontSize: 30,
-    marginBottom: "1%",
+  inputTitle: {
     color: "#08BA46",
     fontFamily: "Satisfy-Regular",
+    fontSize: 30,
   },
   nameInput: {
     width: "100%",
@@ -95,18 +123,11 @@ const styles = StyleSheet.create({
     paddingLeft: "3%",
     borderRadius: 8,
     backgroundColor: "white",
-    fontSize: 18
+    fontSize: 18,
   },
   careInputWrapper: {
-    width: "80%",
+    width: "100%",
     height: 200,
-    marginTop: 50,
-  },
-  careInputTitle: {
-    fontSize: 30,
-    marginBottom: "1%",
-    color: "#08BA46",
-    fontFamily: "Satisfy-Regular",
   },
   careInput: {
     width: "100%",
@@ -117,7 +138,7 @@ const styles = StyleSheet.create({
     padding: "3%",
     paddingTop: "3%",
     fontSize: 16,
-    textAlignVertical: "top"
+    textAlignVertical: "top",
   },
   titleView: {
     marginTop: "5%",
@@ -130,8 +151,7 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "green",
     borderRadius: 8,
-    marginTop: 50,
-    width: "80%"
+    width: "80%",
   },
   submitText: {
     color: "white",
@@ -140,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "900",
     fontFamily: "Satisfy-Regular",
-  }
+  },
 });
 
 export default AddNew;
