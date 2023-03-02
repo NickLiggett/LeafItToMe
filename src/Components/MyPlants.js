@@ -25,20 +25,26 @@ const MyPlants = ({ navigation, route }) => {
     setModalVisible(!modalVisible);
   };
 
+  const getSingleUser = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/customers/${route.params.user._id}`
+      );
+      const data = await response.json();
+      if (prevUserPlants.current !== data.plants) {
+        setUserPlants(data.plants);
+        prevUserPlants.current = data.plants;
+      }
+    } catch (error) {
+      console.log(`Error: ${error.message}`);
+    }
+  };
+
   useEffect(() => {
-    fetch(
-      `https://leaf-it-to-me-api.vercel.app/customers/${route.params.user.id}/plants`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (prevUserPlants.current !== data) {
-          setUserPlants(data);
-          prevUserPlants.current = data;
-        }
-      });
+    getSingleUser();
   }, [modalVisible]);
 
-  return (
+  return userPlants.length ? (
     <View style={styles.container}>
       <Modal
         animationType="slide"
@@ -51,7 +57,8 @@ const MyPlants = ({ navigation, route }) => {
         <PlantDetails
           setModalVisible={setModalVisible}
           selectedPlant={selectedPlant}
-          user={route.params.user}
+          userPlants={userPlants}
+          userId={route.params.user._id}
         />
       </Modal>
       <View style={styles.headerContainer}>
@@ -60,7 +67,8 @@ const MyPlants = ({ navigation, route }) => {
           onPress={() =>
             navigation.navigate("Add New Plant", {
               screen: "Add New Plant",
-              user: route.params.user,
+              userId: route.params.user._id,
+              userPlants: userPlants,
               setUserPlants: setUserPlants,
             })
           }
@@ -78,6 +86,34 @@ const MyPlants = ({ navigation, route }) => {
         keyExtractor={(item) => item.id}
       />
     </View>
+  ) : (
+    <View style={styles.containerNoPlants}>
+      <Text style={styles.addFirstPlantText}>Add a plant!</Text>
+      <Pressable
+        style={styles.addSymbol}
+        onPress={() =>
+          navigation.navigate("Add New Plant", {
+            screen: "Add New Plant",
+            userId: route.params.user._id,
+            userPlants: userPlants,
+            setUserPlants: setUserPlants,
+          })
+        }
+      >
+        <View
+          style={{
+            width: "100%",
+            height: "20%",
+            backgroundColor: "#08BA46",
+            marginBottom: "-60%",
+            marginTop: "40%",
+          }}
+        ></View>
+        <View
+          style={{ width: "20%", height: "100%", backgroundColor: "#08BA46" }}
+        ></View>
+      </Pressable>
+    </View>
   );
 };
 
@@ -87,6 +123,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2E7BB",
     alignItems: "center",
     justifyContent: "center",
+  },
+  containerNoPlants: {
+    flex: 1,
+    backgroundColor: "#F2E7BB",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   flatlist: {
     width: "100%",
@@ -103,6 +145,24 @@ const styles = StyleSheet.create({
   },
   addText: {
     fontWeight: "600",
+  },
+  addFirstPlantText: {
+    color: "#08BA46",
+    fontFamily: "Satisfy-Regular",
+    fontSize: 40,
+    marginTop: "50%",
+  },
+  addSymbol: {
+    height: 100,
+    width: 100,
+    padding: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "grey",
+    borderRadius: "8px",
+    backgroundColor: "rgba(255,255,255,0.7)",
+    marginTop: 50,
   },
 });
 

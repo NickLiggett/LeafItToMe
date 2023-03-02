@@ -1,25 +1,39 @@
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
-const PlantDetails = ({ setModalVisible, selectedPlant, user }) => {
-  const deleteHandler = () => {
-    fetch(
-      `https://leaf-it-to-me-api.vercel.app/customers/${user.id}/plants/${selectedPlant.id}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => console.log("Success:", data))
-      .catch((error) => console.error("Error:", error))
-      .then(() => setModalVisible(false));
+const PlantDetails = ({
+  setModalVisible,
+  selectedPlant,
+  userPlants,
+  userId,
+}) => {
+  const removePlant = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/customers/${userId}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            plants: userPlants.filter(
+              (plant) => parseInt(plant.id) !== parseInt(selectedPlant.id)
+            ),
+          }),
+          headers: { "Content-type": "application/json" },
+        }
+      );
+      const data = await response.json();
+      console.log("Success: ", data.plants);
+    } catch (err) {
+      console.log("Error: ", err.message);
+    }
+    setModalVisible(false);
   };
 
   return selectedPlant ? (
     <View style={styles.container}>
-      <Image style={styles.image} source={selectedPlant.img} />
+      <Image style={styles.image} source={{ uri: selectedPlant.image }} />
       <View style={styles.description}>
         <Text style={styles.plantName}>{selectedPlant.species}</Text>
-        <Pressable onPress={() => deleteHandler()}>
+        <Pressable onPress={() => removePlant()}>
           <Text>Delete</Text>
         </Pressable>
         <Text style={styles.instructions}>{selectedPlant.instructions}</Text>

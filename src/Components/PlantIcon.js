@@ -3,7 +3,11 @@ import { StyleSheet, Pressable, Text, Image } from "react-native";
 const PlantIcon = ({ plant, selectPlant }) => {
   return (
     <Pressable style={styles.container} onPress={() => selectPlant(plant)}>
-      <Image style={styles.image} source={plant.img} resizeMethod="auto" />
+      <Image
+        style={styles.image}
+        source={{ uri: plant.image }}
+        resizeMethod="auto"
+      />
       <Text style={styles.text}>{plant.species}</Text>
     </Pressable>
   );
@@ -24,10 +28,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   image: {
-    width: "80%",
+    width: "90%",
     height: "80%",
     borderRadius: 15,
-    margin: "5%",
+    margin: 10,
   },
 });
 

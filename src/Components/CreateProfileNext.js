@@ -12,22 +12,21 @@ const CreateProfileNext = ({ route, navigation }) => {
   const [successful, setSuccessful] = useState(false);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    
     if (!result.canceled) {
-        console.log(result);
       setImage(result.assets[0].uri);
     }
   };
 
-  const postNewUser = () => {
-    fetch("https://leaf-it-to-me-api.vercel.app/customers", {
+  const postNewUser = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/customers", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,22 +41,14 @@ const CreateProfileNext = ({ route, navigation }) => {
         user_img: image,
       }),
     })
-      .then((response) => {
-        if (response.ok) {
-          setSuccessful(true);
-          return response.json();
-        }
-      })
-      .then((data) => {
-        console.log(data.new_customer);
-        setTimeout(() => navigation.navigate("Login Page"), 2000);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  console.log(image)
+    const data = await response.json()
+    setSuccessful(true)
+    console.log(data)
+    setTimeout(() => navigation.navigate("Login Page"), 2000);
+  } catch (err) {
+    console.log("Error: ", err.message)
+  }
+  }
 
   return successful ? (
     <View style={styles.successfulContainer}>
