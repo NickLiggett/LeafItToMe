@@ -9,7 +9,7 @@ const PlantDetails = ({
   const removePlant = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/customers/${userId}`,
+        `https://leaf-it-to-me-api.vercel.app/customers/${userId}`,
         {
           method: "PATCH",
           body: JSON.stringify({
@@ -21,9 +21,9 @@ const PlantDetails = ({
         }
       );
       const data = await response.json();
-      console.log("Success: ", data.plants);
+      console.log("PlantDetails 24, Success: ", data.plants);
     } catch (err) {
-      console.log("Error: ", err.message);
+      console.log("PlantDetails 26, Error: ", err.message);
     }
     setModalVisible(false);
   };

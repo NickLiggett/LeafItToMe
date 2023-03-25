@@ -28,7 +28,7 @@ const MyPlants = ({ navigation, route }) => {
   const getSingleUser = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/customers/${route.params.user._id}`
+        `https://leaf-it-to-me-api.vercel.app/customers/${route.params.user._id}`
       );
       const data = await response.json();
       if (prevUserPlants.current !== data.plants) {
@@ -36,7 +36,7 @@ const MyPlants = ({ navigation, route }) => {
         prevUserPlants.current = data.plants;
       }
     } catch (error) {
-      console.log(`Error: ${error.message}`);
+      console.log(`MyPlants 39, Error: ${error.message}`);
     }
   };
 
