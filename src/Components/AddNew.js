@@ -1,40 +1,71 @@
-import { View, TextInput, Text, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  Pressable,
+  StyleSheet,
+  Image,
+} from "react-native";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
 const AddNew = ({ route, navigation }) => {
   const [plantSpecies, setSpecies] = useState("");
-  const [plantImage, setPlantImage] = useState(null);
+  const [plantImage, setPlantImage] = useState("");
   const [careInstructions, setCareInstructions] = useState("");
 
   const { userId, userPlants, setUserPlants } = route.params;
 
   const assignId = () => {
     const plantIds = userPlants.map((plant) => plant.id);
-    let id = Math.floor(Math.random() * 1000 + 1);
+    let id = Math.floor(Math.random() * 1000000 + 1);
     if (plantIds.includes(id)) {
-      id = Math.floor(Math.random() * 1000 + 1);
+      id = Math.floor(Math.random() * 1000000 + 1);
     }
     return id;
   };
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    let options = {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    });
+      base64: true,
+    };
+    let result = await ImagePicker.launchImageLibraryAsync(
+      options,
+      (response) => console.log("Add New, 38, Response: ", response)
+    );
 
     if (!result.canceled) {
-      setPlantImage(result.assets[0].uri);
+      setPlantImage(result.assets[0].base64); // Configure to send to cloudinary.
     }
   };
 
   const postNewPlant = async () => {
     try {
+
+      // Send image to Cloudinary
+
+      const formData = new FormData();
+      formData.append("file", `data:image/jpg;base64,${plantImage}`);
+      formData.append("upload_preset", "LITM_User_Plants")
+
+      const imageResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/dcnjzxcgj/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const imageData = await imageResponse.json();
+      console.log("AddNew 63, ImageData: ", imageData);
+
+      // Send data to MongoDB
+
       const response = await fetch(
-        `http://localhost:4000/customers/${userId}`,
+        `https://leaf-it-to-me-api.vercel.app/customers/${userId}`,
         {
           method: "PATCH",
           headers: {
@@ -46,17 +77,18 @@ const AddNew = ({ route, navigation }) => {
               {
                 id: assignId(),
                 species: plantSpecies,
-                image: plantImage,
+                image: imageData.secure_url, // Send cloudinary url
                 instructions: careInstructions,
               },
             ],
           }),
         }
       );
+
       const data = await response.json();
       setUserPlants(data.plants);
     } catch (err) {
-      console.log(`Error: ${err}`);
+      console.log(`AddNew 86, Error: ${err}`);
     }
     navigation.goBack();
   };

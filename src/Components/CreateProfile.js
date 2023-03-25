@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import { useState } from "react";
 
 const CreateProfile = ({ navigation }) => {
@@ -6,8 +13,11 @@ const CreateProfile = ({ navigation }) => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [reEnteredPassword, setReEnteredPassword] = useState("");
+
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+    >
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Create a Profile</Text>
       </View>
@@ -42,25 +52,25 @@ const CreateProfile = ({ navigation }) => {
         </View>
         <Pressable
           style={styles.nextButton}
-          onPress={() =>
+          onPress={() => {
             navigation.navigate("Create Profile Page 2", {
               firstName: firstName,
               username: username,
               password: password,
               reEnteredPassword: reEnteredPassword,
-            })
-          }
+            });
+          }}
         >
           <Text style={styles.nextText}>Next</Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: "130%",
     backgroundColor: "#F2E7BB",
     alignItems: "center",
   },

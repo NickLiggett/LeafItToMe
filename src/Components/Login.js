@@ -8,7 +8,7 @@ const Login = ({ navigation }) => {
 
   const userLogin = async () => {
     try {
-      const response = await fetch("http://localhost:4000/customers")
+      const response = await fetch("https://leaf-it-to-me-api.vercel.app/customers")
       const data = await response.json()
       const theUser = data.find(
         (customer) =>
@@ -20,7 +20,7 @@ const Login = ({ navigation }) => {
       }
     } catch (err) {
       console.log(
-        "There has been a problem with your fetch operation: " + err.message
+        "Login 23, There has been a problem with your fetch operation: " + err.message
       );
     }
 
@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.titleText}>Leaf It To Me</Text>
       <View style={styles.inputContainer}>
-        <View>
+        <View style={styles.inputWrapper}>
           <Text style={styles.inputText}>Username</Text>
           <TextInput
             style={styles.input}
@@ -47,7 +47,7 @@ const Login = ({ navigation }) => {
             {usernameInput}
           </TextInput>
         </View>
-        <View>
+        <View style={styles.inputWrapper}>
           <Text style={styles.inputText}>Password</Text>
           <TextInput
             style={styles.input}
@@ -85,17 +85,21 @@ const styles = StyleSheet.create({
     color: "#08BA46",
     fontFamily: "Satisfy-Regular",
     fontSize: 60,
-    padding: "5%",
+    width: "100%",
+    textAlign: "center",
+    marginTop: "15%",
+  },
+  inputWrapper: {
+    margin: "3%",
   },
   inputContainer: {
     marginTop: 25,
     width: "60%",
-    padding: "5%",
   },
   inputText: {
     color: "#08BA46",
     fontFamily: "Satisfy-Regular",
-    fontSize: 40,
+    fontSize: 30,
   },
   input: {
     height: 35,
@@ -103,6 +107,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 5,
     fontSize: 18,
+    
   },
   loginButton: {
     backgroundColor: "#08BA46",
@@ -125,6 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonText: {
+    fontFamily: "Satisfy-Regular",
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
