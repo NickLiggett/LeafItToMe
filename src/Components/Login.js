@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleText: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 60,
     width: "100%",
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     width: "60%",
   },
   inputText: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 30,
   },
@@ -110,19 +110,18 @@ const styles = StyleSheet.create({
     
   },
   loginButton: {
-    backgroundColor: "#08BA46",
-    width: "30%",
-    height: 40,
-    display: "flex",
+    backgroundColor: "green",
+    width: 200,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
     marginTop: "35%",
     borderRadius: 8,
   },
   createAccountButton: {
-    backgroundColor: "#08BA46",
-    width: "50%",
-    height: 40,
+    backgroundColor: "green",
+    width: 250,
+    height: 50,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -131,9 +130,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: "Satisfy-Regular",
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 30,
     color: "white",
+    padding: 5,
+    width: "100%",
+    textAlign: "center",
   }
 });
 

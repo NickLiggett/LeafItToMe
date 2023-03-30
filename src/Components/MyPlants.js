@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: "grey",
-    borderRadius: "8px",
+    borderRadius: 8,
     backgroundColor: "rgba(255,255,255,0.7)",
     marginTop: 50,
   },

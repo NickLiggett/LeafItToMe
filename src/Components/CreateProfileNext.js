@@ -125,11 +125,11 @@ const styles = StyleSheet.create({
     width: "80%",
     textAlign: "center",
     fontSize: 50,
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
   },
   titleText: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 50,
     width: "100%",
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   inputTitle: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 30,
   },
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   uploadImageButton: {
-    backgroundColor: "#08BA46",
+    backgroundColor: "green",
     borderRadius: 8,
   },
   imageInputTitle: {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#08BA46",
+    backgroundColor: "green",
     width: 100,
     height: 40,
     marginTop: 70,
