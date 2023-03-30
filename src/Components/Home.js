@@ -10,7 +10,7 @@ const Home = ({ navigation, route }) => {
         source={{ uri: user.user_img }}
       ></Image>: null}
       <Text style={styles.titleText}>Welcome, {user.first_name}!</Text>
-      <View>
+      <View style={styles.optionContainer}>
         <Pressable
           style={styles.option}
           onPress={() => navigation.navigate("My Plants", { user: user })}
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F2E7BB",
     alignItems: "center",
-    justifyContent: "space-evenly",
   },
   userImage: {
     width: 150,
@@ -51,10 +50,14 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     borderColor: "#08BA46",
   },
+  optionContainer: {
+    marginTop: 50
+  },
   titleText: {
-    color: "#08BA46",
+    color: "green",
     fontSize: 50,
     fontFamily: "Satisfy-Regular",
+    marginTop: 50,
   },
   option: {
     height: 80,
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     margin: "5%",
   },
   optionText: {
-    color: "#08BA46",
+    color: "green",
     fontSize: 30,
     fontFamily: "Satisfy-Regular",
     padding: "2%",

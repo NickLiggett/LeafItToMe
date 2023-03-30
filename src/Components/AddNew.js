@@ -5,22 +5,26 @@ import {
   Pressable,
   StyleSheet,
   Image,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
 const AddNew = ({ route, navigation }) => {
   const [plantSpecies, setSpecies] = useState("");
-  const [plantImage, setPlantImage] = useState("");
+  const [plantImage, setPlantImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [careInstructions, setCareInstructions] = useState("");
+  const [loadingScreen, setLoadingScreen] = useState(false);
 
   const { userId, userPlants, setUserPlants } = route.params;
 
   const assignId = () => {
     const plantIds = userPlants.map((plant) => plant.id);
-    let id = Math.floor(Math.random() * 1000000 + 1);
+    let id = Math.floor(Math.random() * 1000000000 + 1);
     if (plantIds.includes(id)) {
-      id = Math.floor(Math.random() * 1000000 + 1);
+      id = Math.floor(Math.random() * 1000000000 + 1);
     }
     return id;
   };
@@ -35,22 +39,24 @@ const AddNew = ({ route, navigation }) => {
     };
     let result = await ImagePicker.launchImageLibraryAsync(
       options,
-      (response) => console.log("Add New, 38, Response: ", response)
+      (response) => console.log("Add New 1, Response: ", response)
     );
 
     if (!result.canceled) {
-      setPlantImage(result.assets[0].base64); // Configure to send to cloudinary.
+      setPlantImage(result.assets[0].base64);
+      setImagePreview(result.assets[0].uri);
     }
   };
 
   const postNewPlant = async () => {
     try {
+      setLoadingScreen(true);
 
       // Send image to Cloudinary
 
       const formData = new FormData();
       formData.append("file", `data:image/jpg;base64,${plantImage}`);
-      formData.append("upload_preset", "LITM_User_Plants")
+      formData.append("upload_preset", "LITM_User_Plants");
 
       const imageResponse = await fetch(
         `https://api.cloudinary.com/v1_1/dcnjzxcgj/image/upload`,
@@ -60,7 +66,6 @@ const AddNew = ({ route, navigation }) => {
         }
       );
       const imageData = await imageResponse.json();
-      console.log("AddNew 63, ImageData: ", imageData);
 
       // Send data to MongoDB
 
@@ -76,8 +81,9 @@ const AddNew = ({ route, navigation }) => {
               ...userPlants,
               {
                 id: assignId(),
+                imageID: imageData.public_id,
                 species: plantSpecies,
-                image: imageData.secure_url, // Send cloudinary url
+                image: imageData.secure_url,
                 instructions: careInstructions,
               },
             ],
@@ -88,13 +94,13 @@ const AddNew = ({ route, navigation }) => {
       const data = await response.json();
       setUserPlants(data.plants);
     } catch (err) {
-      console.log(`AddNew 86, Error: ${err}`);
+      console.log(`There was a problem posting the new plant: ${err.message}`);
     }
     navigation.goBack();
   };
 
-  return (
-    <View style={styles.container}>
+  return !loadingScreen ? (
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.titleView}>
         <Text style={styles.titleText}>Add a new plant</Text>
       </View>
@@ -114,34 +120,59 @@ const AddNew = ({ route, navigation }) => {
             onChangeText={(newText) => setCareInstructions(newText)}
           ></TextInput>
         </View>
-        <View style={{}}>
-          <Pressable onPress={() => pickImage()}>
-            <Text style={styles.inputTitle}>Upload an image</Text>
+        <View style={styles.uploadSection}>
+          {plantImage && (
+            <Image
+              style={styles.checkmark}
+              source={require("../../assets/checkmark.gif")}
+            ></Image>
+          )}
+          <Pressable
+            onPress={() => pickImage()}
+            style={!plantImage ? styles.uploadButton : styles.uploadedButton}
+          >
+            <Text style={!plantImage ? styles.uploadText : styles.uploadedText}>
+              Upload an image
+            </Text>
           </Pressable>
+          {imagePreview && (
+            <Image
+              style={styles.imagePreview}
+              source={{ uri: imagePreview }}
+            ></Image>
+          )}
         </View>
         <Pressable style={styles.submitButton} onPress={() => postNewPlant()}>
           <Text style={styles.submitText}>Submit</Text>
         </Pressable>
       </View>
+    </ScrollView>
+  ) : (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color="green"></ActivityIndicator>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: "120%",
     backgroundColor: "#F2E7BB",
     alignItems: "center",
   },
-  inputContainer: {
-    flex: 7 / 8,
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#F2E7BB",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
+  },
+  inputContainer: {
+    alignItems: "center",
     width: "80%",
   },
   nameInputWrapper: {
     width: "90%",
-    height: 100,
+    marginTop: 20,
   },
   inputTitle: {
     color: "#08BA46",
@@ -159,7 +190,7 @@ const styles = StyleSheet.create({
   },
   careInputWrapper: {
     width: "100%",
-    height: 200,
+    marginTop: 20,
   },
   careInput: {
     width: "100%",
@@ -180,18 +211,58 @@ const styles = StyleSheet.create({
     fontFamily: "Satisfy-Regular",
     color: "#08BA46",
   },
+  uploadSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imagePreview: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    marginTop: 50,
+    marginLeft: 10,
+  },
+  uploadButton: {
+    padding: 10,
+    backgroundColor: "green",
+    borderRadius: 8,
+    marginTop: 50,
+  },
+  uploadedButton: {
+    padding: 10,
+    backgroundColor: "green",
+    borderRadius: 8,
+    marginTop: 50,
+  },
+  uploadText: {
+    color: "white",
+    fontFamily: "Satisfy-Regular",
+    fontSize: 30,
+  },
+  uploadedText: {
+    color: "#08BA46",
+    fontFamily: "Satisfy-Regular",
+    fontSize: 30,
+  },
+  checkmark: {
+    width: 40,
+    height: 40,
+    marginTop: 50,
+    marginLeft: 70,
+  },
   submitButton: {
     backgroundColor: "green",
     borderRadius: 8,
     width: "80%",
+    marginTop: 50,
   },
   submitText: {
+    fontFamily: "Satisfy-Regular",
     color: "white",
     textAlign: "center",
     padding: "2%",
     fontSize: 30,
-    fontWeight: "900",
-    fontFamily: "Satisfy-Regular",
   },
 });
 

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {},
   titleText: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 50,
     padding: "5%",
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   inputTitle: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 30,
   },
@@ -104,16 +104,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#08BA46",
-    width: 100,
+    backgroundColor: "green",
+    width: 150,
     height: 40,
     borderRadius: 8,
     marginTop: 80,
   },
   nextText: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
     color: "white",
+    fontFamily: "Satisfy-Regular",
   },
 });
 

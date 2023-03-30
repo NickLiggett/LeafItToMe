@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator } from "react-native";
+import { useState } from "react"
+import CryptoJS from 'crypto-js'
 
 const PlantDetails = ({
   setModalVisible,
@@ -6,8 +8,42 @@ const PlantDetails = ({
   userPlants,
   userId,
 }) => {
+  const cloudName = process.env.CLOUD_NAME;
+  const apiKey = process.env.API_KEY;
+  const apiSecret = process.env.API_SECRET;
+
+  const [loadingScreen, setLoadingScreen] = useState(false)
+
   const removePlant = async () => {
     try {
+
+      setLoadingScreen(true)
+
+      // Remove from cloudinary
+
+      const timestamp = Math.floor(Date.now() / 1000);
+      const signaturePayload = `public_id=${selectedPlant.imageID}&timestamp=${timestamp}${apiSecret}`
+      const signature = CryptoJS.SHA1(signaturePayload).toString()
+      const imageResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          public_id: selectedPlant.imageID,
+          api_key: apiKey,
+          timestamp: timestamp,
+          signature: signature
+        }),
+      })
+          if (!imageResponse.ok) {
+            throw new Error("Failed to delete image");
+          }
+          console.log("Image deleted successfully");
+        
+
+      // Remove from MongoDB
+
       const response = await fetch(
         `https://leaf-it-to-me-api.vercel.app/customers/${userId}`,
         {
@@ -21,14 +57,14 @@ const PlantDetails = ({
         }
       );
       const data = await response.json();
-      console.log("PlantDetails 24, Success: ", data.plants);
+      console.log(`Plant removed successfully: , ${data.plants}`);
     } catch (err) {
-      console.log("PlantDetails 26, Error: ", err.message);
+      console.log(`There was a problem removing the plant: ${err.message}`);
     }
     setModalVisible(false);
   };
 
-  return selectedPlant ? (
+  return !loadingScreen ? (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: selectedPlant.image }} />
       <View style={styles.description}>
@@ -41,8 +77,8 @@ const PlantDetails = ({
       </View>
     </View>
   ) : (
-    <View style={styles.container}>
-      <Text>Loading</Text>
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color="green"></ActivityIndicator>
     </View>
   );
 };
@@ -52,6 +88,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F2E7BB",
     alignItems: "center",
+  },
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#F2E7BB",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: "100%",
