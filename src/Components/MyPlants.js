@@ -6,12 +6,17 @@ import {
   Pressable,
   Text,
   Modal,
+  LogBox,
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import addIcon from "../../assets/add-icon.png";
 
 import PlantIcon from "./PlantIcon";
 import PlantDetails from "./PlantDetails";
+
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
 
 const MyPlants = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -61,22 +66,19 @@ const MyPlants = ({ navigation, route }) => {
           userId={route.params.user._id}
         />
       </Modal>
-      <View style={styles.headerContainer}>
-        <Pressable
-          style={styles.addContainer}
-          onPress={() =>
-            navigation.navigate("Add New Plant", {
-              screen: "Add New Plant",
-              userId: route.params.user._id,
-              userPlants: userPlants,
-              setUserPlants: setUserPlants,
-            })
-          }
-        >
-          <Image source={addIcon} />
-          <Text style={styles.addText}>Add New</Text>
-        </Pressable>
-      </View>
+      <Pressable
+        style={styles.addContainer}
+        onPress={() =>
+          navigation.navigate("Add New Plant", {
+            screen: "Add New Plant",
+            userId: route.params.user._id,
+            userPlants: userPlants,
+            setUserPlants: setUserPlants,
+          })
+        }
+      >
+        <Image source={addIcon} style={{ width: 40, height: 40 }} />
+      </Pressable>
       <FlatList
         style={styles.flatlist}
         data={userPlants}
@@ -104,13 +106,13 @@ const MyPlants = ({ navigation, route }) => {
           style={{
             width: "100%",
             height: "20%",
-            backgroundColor: "#08BA46",
+            backgroundColor: "green",
             marginBottom: "-60%",
             marginTop: "40%",
           }}
         ></View>
         <View
-          style={{ width: "20%", height: "100%", backgroundColor: "#08BA46" }}
+          style={{ width: "20%", height: "100%", backgroundColor: "green" }}
         ></View>
       </Pressable>
     </View>
@@ -133,36 +135,23 @@ const styles = StyleSheet.create({
   flatlist: {
     width: "100%",
   },
-  headerContainer: {
-    width: "100%",
-  },
   addContainer: {
-    alignItems: "center",
     alignSelf: "flex-end",
-    paddingTop: 10,
-    paddingBottom: 3,
-    marginRight: 25,
+    marginRight: 20,
+    margin: 10,
+    backgroundColor: "white",
+    borderRadius: 8,
+    width: 40,
+    height: 40,
   },
   addText: {
     fontWeight: "600",
   },
   addFirstPlantText: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 40,
     marginTop: "50%",
-  },
-  addSymbol: {
-    height: 100,
-    width: 100,
-    padding: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 8,
-    backgroundColor: "rgba(255,255,255,0.7)",
-    marginTop: 50,
   },
 });
 

@@ -23,8 +23,8 @@ export default function App() {
         <Stack.Screen name="Login Page" component={Login} />
         <Stack.Screen name="My Plants" component={MyPlants} />
         <Stack.Screen name="Add New Plant" component={AddNew} />
-        <Stack.Screen name="Create Profile Page" component={CreateProfile} />
-        <Stack.Screen name="Create Profile Page 2" component={CreateProfileNext} />
+        <Stack.Screen name="Create Profile Page" options={{title: "Create Profile"}} component={CreateProfile} />
+        <Stack.Screen name="Create Profile Page 2" options={{title: "Create Profile"}} component={CreateProfileNext} />
       </Stack.Navigator>
     </NavigationContainer>
   ) : null;
