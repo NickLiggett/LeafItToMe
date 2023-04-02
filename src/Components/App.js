@@ -9,7 +9,7 @@ import AddNew from "./AddNew";
 import CreateProfile from "./CreateProfile"
 import CreateProfileNext from "./CreateProfileNext"
 
-export default function App() {
+const App = () => {
   const [fontsLoaded] = useFonts({
     "Satisfy-Regular": require("../../assets/fonts/Satisfy-Regular.ttf"),
   });
@@ -29,3 +29,5 @@ export default function App() {
     </NavigationContainer>
   ) : null;
 }
+
+export default App
