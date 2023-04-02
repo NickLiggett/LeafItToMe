@@ -9,13 +9,15 @@ import {
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
+import UploadImage from "../Components/UploadImage";
+
 const CreateProfileNext = ({ route, navigation }) => {
   const { firstName, username, password } = route.params;
 
   const [userCity, setUserCity] = useState("");
   const [userState, setUserState] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [successful, setSuccessful] = useState(false);
 
   const pickImage = async () => {
@@ -27,7 +29,7 @@ const CreateProfileNext = ({ route, navigation }) => {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImagePreview(result.assets[0].uri);
     }
   };
 
@@ -93,13 +95,8 @@ const CreateProfileNext = ({ route, navigation }) => {
             onChangeText={(newText) => setZipCode(newText)}
           ></TextInput>
         </View>
-        <View style={styles.inputWrapper}>
-          <Pressable
-            onPress={() => pickImage()}
-            style={styles.uploadImageButton}
-          >
-            <Text style={styles.imageInputTitle}> Upload an image</Text>
-          </Pressable>
+        <View style={{marginTop: 50}}>
+          <UploadImage pickImage={pickImage} imagePreview={imagePreview} />
         </View>
         <Pressable style={styles.submitButton} onPress={() => postNewUser()}>
           <Text style={styles.nextText}>Submit</Text>
@@ -139,7 +136,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     height: 550,
-    justifyContent: "space-evenly",
+    // justifyContent: "space-evenly",
     alignItems: "center",
   },
   inputWrapper: {
@@ -173,15 +170,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     backgroundColor: "green",
-    width: 100,
-    height: 40,
+    width: 150,
+    height: 50,
     marginTop: 70,
     borderRadius: 8,
   },
   nextText: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 30,
     color: "white",
+    fontFamily: "Satisfy-Regular",
   },
 });
 

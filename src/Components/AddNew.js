@@ -11,6 +11,9 @@ import {
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
+import LoadingScreen from "../Components/LoadingScreen";
+import UploadImage from "../Components/UploadImage";
+
 const AddNew = ({ route, navigation }) => {
   const [plantSpecies, setSpecies] = useState("");
   const [plantImage, setPlantImage] = useState(null);
@@ -30,6 +33,7 @@ const AddNew = ({ route, navigation }) => {
   };
 
   const pickImage = async () => {
+    setLoadingScreen(true)
     let options = {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -43,6 +47,7 @@ const AddNew = ({ route, navigation }) => {
     );
 
     if (!result.canceled) {
+      setLoadingScreen(false)
       setPlantImage(result.assets[0].base64);
       setImagePreview(result.assets[0].uri);
     }
@@ -120,27 +125,8 @@ const AddNew = ({ route, navigation }) => {
             onChangeText={(newText) => setCareInstructions(newText)}
           ></TextInput>
         </View>
-        <View style={styles.uploadSection}>
-          {plantImage && (
-            <Image
-              style={styles.checkmark}
-              source={require("../../assets/checkmark.gif")}
-            ></Image>
-          )}
-          <Pressable
-            onPress={() => pickImage()}
-            style={!plantImage ? styles.uploadButton : styles.uploadedButton}
-          >
-            <Text style={!plantImage ? styles.uploadText : styles.uploadedText}>
-              Upload an image
-            </Text>
-          </Pressable>
-          {imagePreview && (
-            <Image
-              style={styles.imagePreview}
-              source={{ uri: imagePreview }}
-            ></Image>
-          )}
+        <View style={{ marginTop: 50, width: "100%" }}>
+          <UploadImage imagePreview={imagePreview} pickImage={pickImage} />
         </View>
         <Pressable style={styles.submitButton} onPress={() => postNewPlant()}>
           <Text style={styles.submitText}>Submit</Text>
@@ -148,9 +134,7 @@ const AddNew = ({ route, navigation }) => {
       </View>
     </ScrollView>
   ) : (
-    <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" color="green"></ActivityIndicator>
-    </View>
+    <LoadingScreen />
   );
 };
 
@@ -160,22 +144,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2E7BB",
     alignItems: "center",
   },
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: "#F2E7BB",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   inputContainer: {
     alignItems: "center",
-    width: "80%",
+    width: "100%",
   },
   nameInputWrapper: {
-    width: "90%",
+    width: "80%",
     marginTop: 20,
   },
   inputTitle: {
-    color: "#08BA46",
+    color: "green",
     fontFamily: "Satisfy-Regular",
     fontSize: 30,
   },
@@ -189,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   careInputWrapper: {
-    width: "100%",
+    width: "80%",
     marginTop: 20,
   },
   careInput: {
@@ -209,47 +187,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 50,
     fontFamily: "Satisfy-Regular",
-    color: "#08BA46",
-  },
-  uploadSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  imagePreview: {
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    marginTop: 50,
-    marginLeft: 10,
-  },
-  uploadButton: {
-    padding: 10,
-    backgroundColor: "green",
-    borderRadius: 8,
-    marginTop: 50,
-  },
-  uploadedButton: {
-    padding: 10,
-    backgroundColor: "green",
-    borderRadius: 8,
-    marginTop: 50,
-  },
-  uploadText: {
-    color: "white",
-    fontFamily: "Satisfy-Regular",
-    fontSize: 30,
-  },
-  uploadedText: {
-    color: "#08BA46",
-    fontFamily: "Satisfy-Regular",
-    fontSize: 30,
-  },
-  checkmark: {
-    width: 40,
-    height: 40,
-    marginTop: 50,
-    marginLeft: 70,
+    color: "green",
   },
   submitButton: {
     backgroundColor: "green",

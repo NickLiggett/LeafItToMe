@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator } from "rea
 import { useState } from "react"
 import CryptoJS from 'crypto-js'
 
+import LoadingScreen from "../Components/LoadingScreen"
+
 const PlantDetails = ({
   setModalVisible,
   selectedPlant,
@@ -77,9 +79,7 @@ const PlantDetails = ({
       </View>
     </View>
   ) : (
-    <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" color="green"></ActivityIndicator>
-    </View>
+    <LoadingScreen/>
   );
 };
 
