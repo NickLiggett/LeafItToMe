@@ -18,9 +18,9 @@ const App = () => {
 
   return fontsLoaded ? (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login Page">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Login Page" component={Login} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="My Plants" component={MyPlants} />
         <Stack.Screen name="Add New Plant" component={AddNew} />
         <Stack.Screen name="Create Profile Page" options={{title: "Create Profile"}} component={CreateProfile} />
