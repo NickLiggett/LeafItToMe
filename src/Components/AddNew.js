@@ -4,9 +4,7 @@ import {
   Text,
   Pressable,
   StyleSheet,
-  Image,
   ScrollView,
-  ActivityIndicator,
 } from "react-native";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -51,6 +49,7 @@ const AddNew = ({ route, navigation }) => {
       setPlantImage(result.assets[0].base64);
       setImagePreview(result.assets[0].uri);
     }
+    setLoadingScreen(false)
   };
 
   const postNewPlant = async () => {
@@ -114,6 +113,7 @@ const AddNew = ({ route, navigation }) => {
           <Text style={styles.inputTitle}>Name</Text>
           <TextInput
             style={styles.nameInput}
+            value={plantSpecies}
             onChangeText={(newText) => setSpecies(newText)}
           ></TextInput>
         </View>
@@ -122,11 +122,12 @@ const AddNew = ({ route, navigation }) => {
           <TextInput
             style={styles.careInput}
             multiline
+            value={careInstructions}
             onChangeText={(newText) => setCareInstructions(newText)}
           ></TextInput>
         </View>
         <View style={{ marginTop: 50, width: "100%" }}>
-          <UploadImage imagePreview={imagePreview} pickImage={pickImage} />
+          <UploadImage imagePreview={imagePreview} pickImage={pickImage} buttonTitle="Upload an Image"/>
         </View>
         <Pressable style={styles.submitButton} onPress={() => postNewPlant()}>
           <Text style={styles.submitText}>Submit</Text>

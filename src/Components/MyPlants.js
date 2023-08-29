@@ -7,6 +7,7 @@ import {
   Text,
   Modal,
   LogBox,
+  Animated,
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import addIcon from "../../assets/add-icon.png";
@@ -41,7 +42,7 @@ const MyPlants = ({ navigation, route }) => {
         prevUserPlants.current = data.plants;
       }
     } catch (error) {
-      console.log(`MyPlants 39, Error: ${error.message}`);
+      console.log(`Error: ${error.message}`);
     }
   };
 
@@ -64,6 +65,7 @@ const MyPlants = ({ navigation, route }) => {
           selectedPlant={selectedPlant}
           userPlants={userPlants}
           userId={route.params.user._id}
+          setUserPlants={setUserPlants}
         />
       </Modal>
       <Pressable
@@ -92,28 +94,17 @@ const MyPlants = ({ navigation, route }) => {
     <View style={styles.containerNoPlants}>
       <Text style={styles.addFirstPlantText}>Add a plant!</Text>
       <Pressable
-        style={styles.addSymbol}
-        onPress={() =>
+        style={styles.addButton}
+        onPress={() => {
           navigation.navigate("Add New Plant", {
             screen: "Add New Plant",
             userId: route.params.user._id,
             userPlants: userPlants,
             setUserPlants: setUserPlants,
-          })
-        }
+          });
+        }}
       >
-        <View
-          style={{
-            width: "100%",
-            height: "20%",
-            backgroundColor: "green",
-            marginBottom: "-60%",
-            marginTop: "40%",
-          }}
-        ></View>
-        <View
-          style={{ width: "20%", height: "100%", backgroundColor: "green" }}
-        ></View>
+        <Image source={addIcon} style={styles.addSymbol} />
       </Pressable>
     </View>
   );
@@ -141,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 30,
-    backgroundColor: "rgba(0, 128, 0, 0.4)",
+    backgroundColor: "rgba(0, 128, 0, 0.5)",
     position: "absolute",
     top: 10,
     right: 10,
@@ -155,6 +146,21 @@ const styles = StyleSheet.create({
     fontFamily: "Satisfy-Regular",
     fontSize: 40,
     marginTop: "50%",
+  },
+  addButton: {
+    marginTop: "15%",
+    backgroundColor: "rgba(250, 250, 250, 0.7)",
+    borderWidth: 2,
+    borderColor: "green",
+    borderRadius: 100,
+    width: 170,
+    height: 170,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  addSymbol: {
+    width: 120,
+    height: 120,
   },
 });
 

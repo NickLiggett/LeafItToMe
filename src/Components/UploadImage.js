@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, Pressable, Text } from "react-native"
 
-const UploadImage = ({ pickImage, imagePreview }) => {
+const UploadImage = ({ pickImage, imagePreview, buttonTitle }) => {
     return (
         <View style={styles.uploadSection}>
         {imagePreview && (
@@ -14,7 +14,7 @@ const UploadImage = ({ pickImage, imagePreview }) => {
           style={!imagePreview ? styles.uploadButton : styles.uploadedButton}
         >
           <Text style={styles.uploadText}>
-            Upload an image
+            {buttonTitle}
           </Text>
         </Pressable>
         {imagePreview && (
